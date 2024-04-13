@@ -43,9 +43,6 @@ void input() {
 
 /* 루돌프의 움직임 */
 int getDir(int idx) {
-    //cout << "idx = " << idx << endl;
-    //cout << "rudolph = (" << r.first.first << ", " << r.first.second << ")\n";
-    //cout << "santa = (" << s[idx].r << ", " << s[idx].c << ")\n";
     if(r.first.first > s[idx].r) {
         if(r.first.second > s[idx].c) return 4;
         if(r.first.second < s[idx].c) return 5;
@@ -77,14 +74,10 @@ void moveRudolph() {
             } else if(s[target].r < s[i].r) target = i;
         }
     }
-    //cout << "rudolph target = " << target << endl;
     int d = getDir(target);
-    //cout << "d = " << d << endl;
     r = {{r.first.first + dr[d], r.first.second + dc[d]}, d};
-    //cout << "(" << r.first.first << ", " << r.first.second << ")\n";
 }
 
-// 5 2 4 1 3
 
 /* 루돌프 상호작용 */
 void interactionRudolph(int target, bool isStart) {
@@ -170,16 +163,13 @@ void moveSanta() {
 
         priority_queue<pii, vector<pii>, greater<pii>> pq;
         int curDist = pow(abs(r.first.first - s[i].r), 2) + pow(abs(r.first.second - s[i].c), 2);
-        //cout << "i = (" << r.first.first << ", " << r.first.second << ")\n";
         int nr, nc;
         for(int d=0; d<4; d+=1) {
             nr = s[i].r + dr[d];
             nc = s[i].c + dc[d];
             int nextDist = pow(abs(r.first.first - nr), 2) + pow(abs(r.first.second - nc), 2);
 
-            //cout << "i = " << i << " curDist = " << curDist << " nextDist = " << nextDist << endl;
             if(nr < 1 || nr > N || nc < 1 || nc > N || nextDist >= curDist || matrix[nr][nc]) continue;
-            //cout << "i = " << i << " hubo d = " << d << endl;
             pq.push({nextDist, d});
         }
 
@@ -189,7 +179,6 @@ void moveSanta() {
         nr = s[i].r + dr[nextDir.second];
         nc = s[i].c + dc[nextDir.second];
 
-        //cout << "i = " << i << " d = " << nextDir.second << endl;
         matrix[s[i].r][s[i].c] = false;
         s[i] = {nr, nc, s[i].score, s[i].stateSanta, s[i].stateRudolph};
         matrix[s[i].r][s[i].c] = true;
@@ -211,14 +200,6 @@ bool checkSanta() {
 
 void solve() {
     for(int i=0; i<M; i+=1) {
-        /*for(int k=1; k<=N; k+=1) {
-            for(int j=1; j<=N; j+=1) {
-                if(matrix[k][j]) cout << 1 << ' ';
-                else if(k == r.first.first && j == r.first.second) cout << 2 << ' ';
-                else cout << 0 << ' ';
-            }
-            cout << endl;
-        }*/
         moveRudolph();
         if(matrix[r.first.first][r.first.second]) {
             crushRudolph();
@@ -230,10 +211,6 @@ void solve() {
             s[i].score += 1;
             
         }
-        /*for(int i=1; i<=P; i+=1) {
-            cout << s[i].score << ' ';
-        }
-        cout << endl;*/
     }
     
     for(int i=1; i<=P; i+=1) {
